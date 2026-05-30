@@ -9,8 +9,10 @@ include(FetchContent)
 FetchContent_Declare(
     sfml
     GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG        2.6.1
+    GIT_TAG        3.1.0
 )
+
+set(SFML_BUILD_NETWORK OFF CACHE BOOL "" FORCE)
 
 set(SFML_BUILD_EXAMPLES OFF CACHE INTERNAL "")
 set(SFML_BUILD_DOC OFF CACHE INTERNAL "")
