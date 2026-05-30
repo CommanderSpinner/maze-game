@@ -1,5 +1,7 @@
 #include<iostream>
+#include "window.hpp"
 
 int main(void) {
-    std::printf("hello world");
+    Window w;
+    w.run();
 }
