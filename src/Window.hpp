@@ -2,8 +2,7 @@
 
 #include "InputManager.hpp"
 
-class Window
-{
+class Window {
 private:
     sf::RenderWindow window;
     sf::Clock clock;
@@ -18,7 +17,6 @@ public:
     {
         while (window.isOpen())
         {
-            float deltaTime = clock.restart().asSeconds();
 
             handleEvents();
             update();
@@ -38,7 +36,7 @@ private:
 
     void update()
     {
-        // game logic 
+        float deltaTime = clock.restart().asSeconds();
     }
 
     void render()
