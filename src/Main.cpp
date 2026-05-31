@@ -1,5 +1,5 @@
 #include<iostream>
-#include "window.hpp"
+#include "Window.hpp"
 
 int main(void) {
     Window w;

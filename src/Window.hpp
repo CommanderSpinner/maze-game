@@ -1,11 +1,12 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include "InputManager.hpp"
 
 class Window
 {
 private:
     sf::RenderWindow window;
+    sf::Clock clock;
 
 public:
     Window()
@@ -17,6 +18,8 @@ public:
     {
         while (window.isOpen())
         {
+            float deltaTime = clock.restart().asSeconds();
+
             handleEvents();
             update();
             render();
