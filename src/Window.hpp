@@ -6,6 +6,7 @@ class Window {
 private:
     sf::RenderWindow window;
     sf::Clock clock;
+    InputManager im;
 
 public:
     Window()
@@ -31,6 +32,8 @@ private:
         {
             if (event->is<sf::Event::Closed>())
                 window.close();
+
+            im.processEvent(*event);
         }
     }
 
