@@ -12,7 +12,9 @@ public:
     virtual ~Entity() = default;
     Entity() : velocity({0.f, 0.f}) {}
 
-    virtual void update(float deltaTime) {}
+    virtual void update(float deltaTime) {
+        sprite.move(velocity * deltaTime);
+    }
     
     virtual void draw(sf::RenderWindow& window) {
         window.draw(sprite);
