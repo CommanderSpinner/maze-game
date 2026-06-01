@@ -21,5 +21,10 @@ pkgs.mkShell {
     flac
     libvorbis
     openal
+    mbedtls
+    harfbuzz
+    freetype
+    libpng
+    zlib
   ];
 }

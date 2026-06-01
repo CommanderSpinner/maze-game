@@ -9,7 +9,13 @@ include(FetchContent)
 FetchContent_Declare(
     sfml
     GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG        2.6.1
+    GIT_TAG        3.1.0
+)
+
+set(SFML_BUILD_NETWORK OFF CACHE BOOL "" FORCE)
+
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/assets"
+     DESTINATION "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
 set(SFML_BUILD_EXAMPLES OFF CACHE INTERNAL "")
