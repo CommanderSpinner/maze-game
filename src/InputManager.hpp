@@ -2,34 +2,50 @@
 
 #include <SFML/Graphics.hpp>
 
-class InputeManager {
+class InputManager {
     public:
     void processEvent(const sf::Event& event) {
          // Key pressed
         if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>())
         {
             if (keyPressed->code == sf::Keyboard::Key::A)
-                m_moveLeft = true;
+                moveLeft = true;
 
             if (keyPressed->code == sf::Keyboard::Key::D)
-                m_moveRight = true;
+                moveRight = true;
+
+            if (keyPressed->code == sf::Keyboard::Key::W)
+                moveUp = true;
+
+            if (keyPressed->code == sf::Keyboard::Key::S)
+                moveDown = true;
         }
 
         // Key released
         if (const auto* keyReleased = event.getIf<sf::Event::KeyReleased>())
         {
             if (keyReleased->code == sf::Keyboard::Key::A)
-                m_moveLeft = false;
+                moveLeft = false;
 
             if (keyReleased->code == sf::Keyboard::Key::D)
-                m_moveRight = false;
+                moveRight = false;
+
+            if (keyReleased->code == sf::Keyboard::Key::W)
+                moveUp = false;
+
+            if (keyReleased->code == sf::Keyboard::Key::S)
+                moveDown = false;
         }
     }
 
-    bool moveLeft() const { return m_moveLeft; }
-    bool moveRight() const { return m_moveRight; }
+    bool isMovingLeft() const { return moveLeft; }
+    bool isMovingRight() const { return moveRight; }
+    bool isMoveingUp() const { return moveUp; }
+    bool isMoveingDown() const { return moveDown; }
 
 private:
-    bool m_moveLeft = false;
-    bool m_moveRight = false;
+    bool moveLeft = false;
+    bool moveRight = false;
+    bool moveUp = false;
+    bool moveDown = false;
 };
