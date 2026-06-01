@@ -4,13 +4,19 @@
 
 
 class Entity {
+    static inline int count = 0;
 protected:
+    int id;
+    sf::Texture texture;
     sf::Sprite sprite;
     sf::Vector2f velocity;
 public:
 
     virtual ~Entity() = default;
-    Entity() : velocity({0.f, 0.f}) {}
+    Entity() : velocity({0.f, 0.f}) {
+        id = count;
+        count++;
+    }
 
     virtual void update(float deltaTime) {
         sprite.move(velocity * deltaTime);
@@ -28,7 +34,10 @@ public:
         return sprite.getPosition();
     }
 
-    void setTexture(const sf::Texture& texture) {
+    void setTexture(std::string path) {
+        if (!texture.loadFromFile(path)) {
+            throw std::runtime_error("Failed to load texture from path: " + path);
+        }
         sprite.setTexture(texture);
     }
 
