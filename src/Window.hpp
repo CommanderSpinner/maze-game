@@ -23,7 +23,6 @@ public:
     {
         while (window.isOpen())
         {
-
             handleEvents();
             update();
             render();
