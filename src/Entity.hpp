@@ -24,7 +24,7 @@ public:
         sprite.move(velocity * deltaTime);
     }
     
-    virtual void draw(sf::RenderWindow& window) {
+    void draw(sf::RenderWindow& window) {
         window.draw(sprite);
     }
 
@@ -40,7 +40,7 @@ public:
         if (!texture.loadFromFile(texturePath)) {
             throw std::runtime_error("Failed to load texture from path: " + texturePath);
         }
-        sprite.setTexture(texture);
+        sprite.setTexture(texture, true);
     }
 
     sf::FloatRect getBounds() const {

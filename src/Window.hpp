@@ -1,17 +1,22 @@
 #pragma once
 
 #include "InputManager.hpp"
+#include "Player.hpp"
+#include <vector>
+#include <memory>
 
 class Window {
 private:
     sf::RenderWindow window;
     sf::Clock clock;
     InputManager im;
+    std::vector <std::unique_ptr<Entity>> entitys;
 
 public:
     Window()
         : window(sf::VideoMode({800, 600}), "maze game")
     {
+        entitys.push_back(std::make_unique<Player>(im));
     }
 
     void run()
@@ -40,13 +45,20 @@ private:
     void update()
     {
         float deltaTime = clock.restart().asSeconds();
+
+        for (auto& e : entitys) {
+            e->update(deltaTime);
+        }
+
     }
 
     void render()
     {
         window.clear(sf::Color::Black);
 
-        // draw stuff here
+        for (auto& e : entitys) {
+            e->draw(window);
+        }
 
         window.display();
     }
