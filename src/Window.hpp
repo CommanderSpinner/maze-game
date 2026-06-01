@@ -4,6 +4,7 @@
 #include "Player.hpp"
 #include <vector>
 #include <memory>
+#include "WorldGenerator.hpp"
 
 class Window {
 private:
@@ -17,6 +18,7 @@ public:
         : window(sf::VideoMode({800, 600}), "maze game")
     {
         entitys.push_back(std::make_unique<Player>(im));
+        WorldGenerator g(entitys);
     }
 
     void run()

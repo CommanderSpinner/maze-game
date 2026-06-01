@@ -5,8 +5,10 @@
 #include "Global.hpp"
 
 class Block : public Entity {
-    Block(sf::Vector2 position) : Entity(Global::defaultTexture) {
+public:
+    Block(sf::Vector2f position) : Entity(Global::defaultTexture) {
         setTexture(Global::blockTexture);
         sprite.setPosition(position);
+        sprite.setScale(sf::Vector2f(1.f, 1.f));
     }
 };
