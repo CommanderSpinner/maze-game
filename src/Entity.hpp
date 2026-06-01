@@ -13,7 +13,7 @@ protected:
 public:
 
     virtual ~Entity() = default;
-    Entity(std::string texturePath) : velocity({0.f, 0.f}) {
+    Entity(std::string texturePath) :  sprite(texture), velocity({0.f, 0.f}) {
         id = count;
         count++;
 

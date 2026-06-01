@@ -2,6 +2,7 @@
 
 #include "Entity.hpp"
 #include "InputManager.hpp"
+#include "Global.hpp"
 
 class Player :  public Entity {
 private: 
@@ -11,8 +12,8 @@ private:
 
     }
 public:
-    Player(InputManager& im, std::string texturePath) : input(im) {
-        setTexture(texturePath);
+    Player(InputManager& im) : Entity(Global::defaultTexture), input(im) {
+        setTexture(Global::playerTexturePath);
 
     }
     void update(float deltaTime) override {
