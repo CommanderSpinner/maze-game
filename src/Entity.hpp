@@ -13,9 +13,11 @@ protected:
 public:
 
     virtual ~Entity() = default;
-    Entity() : velocity({0.f, 0.f}) {
+    Entity(std::string texturePath) : velocity({0.f, 0.f}) {
         id = count;
         count++;
+
+        setTexture(texturePath);
     }
 
     virtual void update(float deltaTime) {
@@ -34,9 +36,9 @@ public:
         return sprite.getPosition();
     }
 
-    void setTexture(std::string path) {
-        if (!texture.loadFromFile(path)) {
-            throw std::runtime_error("Failed to load texture from path: " + path);
+    void setTexture(std::string texturePath) {
+        if (!texture.loadFromFile(texturePath)) {
+            throw std::runtime_error("Failed to load texture from path: " + texturePath);
         }
         sprite.setTexture(texture);
     }
