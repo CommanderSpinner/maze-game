@@ -1,14 +1,12 @@
 #pragma once
 
-#include "Entity.hpp"
+#include "Character.hpp"
 #include "InputManager.hpp"
 #include "Global.hpp"
 
-class Player :  public Entity {
+class Player :  public Character {
 private: 
     InputManager& input;
-
-    float speed = 185.f;
 
     void handleInput() {
         if (input.isMovingDown()) {
@@ -32,16 +30,14 @@ private:
 
     }
 public:
-    Player(InputManager& im) : Entity(Global::defaultTexture), input(im) {
+    Player(InputManager& im) : input(im) {
         setTexture(Global::playerTexturePath);
         setPosition({50.f, 50.f});
 
     }
     void update(float deltaTime) override {
-        // todo: add here code for player movement based on what input manager passes
+        Character::update(deltaTime);
         handleInput();
-        Entity::update(deltaTime);
-        movement = {0.f, 0.f};
     }
     
 };

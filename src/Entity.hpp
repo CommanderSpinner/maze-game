@@ -19,10 +19,6 @@ public:
 
         setTexture(texturePath);
     }
-
-    virtual void update(float deltaTime) {
-        sprite.move(movement * deltaTime);
-    }
     
     void draw(sf::RenderWindow& window) {
         window.draw(sprite);
@@ -34,6 +30,9 @@ public:
 
     sf::Vector2f getPosition() const {
         return sprite.getPosition();
+    }
+
+    virtual void update(float deltaTime) {
     }
 
     void setTexture(std::string texturePath) {
