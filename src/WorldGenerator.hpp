@@ -4,6 +4,8 @@
 #include "Entity.hpp"
 #include "Block.hpp"
 #include <random>
+#include "Character.hpp"
+#include <memory>
 
 class WorldGenerator {
     std::vector <std::unique_ptr<Entity>>& entity;
@@ -15,8 +17,7 @@ class WorldGenerator {
     std::vector<std::vector<int>> grid;
     std::mt19937 rng{123};
 
-    void generate()
-    {
+    void generateBlocks() {
         std::uniform_int_distribution<int> wallChance(0, 4);
 
         for (int x = 0; x < width; x++) {
@@ -39,9 +40,14 @@ class WorldGenerator {
         }
     }
 
+    void generateEnemys() {
+        entity.push_back(std::make_unique<Character>(sf::Vector2f{100, 100}));
+    }
+
 public:
     WorldGenerator(std::vector <std::unique_ptr<Entity>>& e) : entity(e) {
-        generate();
+        generateBlocks();
+        generateEnemys();
     }
 
 };

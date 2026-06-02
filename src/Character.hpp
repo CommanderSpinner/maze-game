@@ -7,8 +7,8 @@ class Character : public Entity {
 protected:
     float speed = 185.f;
 public:
-    Character() : Entity(Global::defaultTexture) {
-
+    Character(const sf::Vector2f& pos) : Entity(Global::defaultTexture) {
+        setPosition(pos);
     }
 
     virtual void update(float deltaTime) {

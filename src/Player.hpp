@@ -30,11 +30,10 @@ private:
 
     }
 public:
-    Player(InputManager& im) : input(im) {
+    Player(InputManager& im) :  Character({50.f, 50.f}), input(im) {
         setTexture(Global::playerTexturePath);
-        setPosition({50.f, 50.f});
-
     }
+    
     void update(float deltaTime) override {
         Character::update(deltaTime);
         handleInput();
