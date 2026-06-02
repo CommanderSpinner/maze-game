@@ -8,7 +8,7 @@ class Player :  public Entity {
 private: 
     InputManager& input;
 
-    float speed = 70.f;
+    float speed = 185.f;
 
     void handleInput() {
         if (input.isMovingDown()) {
