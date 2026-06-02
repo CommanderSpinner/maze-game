@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
 #include "Block.hpp"
+#include <random>
 
 class WorldGenerator {
     std::vector <std::unique_ptr<Entity>>& entity;
@@ -12,18 +13,20 @@ class WorldGenerator {
     int height = 150;
 
     std::vector<std::vector<int>> grid;
+    std::mt19937 rng{123};
 
     void generate()
     {
+        std::uniform_int_distribution<int> wallChance(0, 4);
+
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
 
-                // border walls
-                bool isWall = (x == 0 || y == 0 || x == width - 1 || y == height - 1);
+                bool isWall = (x == 0 || y == 0 ||
+                               x == width - 1 || y == height - 1);
 
-                // random internal walls (temporary generator)
                 if (!isWall)
-                    isWall = (rand() % 5 == 0);
+                    isWall = (wallChance(rng) == 0); // 20% chance
 
                 if (isWall) {
                     entity.push_back(
