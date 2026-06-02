@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include "WorldGenerator.hpp"
+#include "Collision.hpp"
 
 class Window {
 private:
@@ -50,6 +51,8 @@ private:
         for (auto& e : entitys) {
             e->update(deltaTime);
         }
+
+        Collision collision(entitys);
 
     }
 
