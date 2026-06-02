@@ -40,8 +40,8 @@ class InputManager {
 
     bool isMovingLeft() const { return moveLeft; }
     bool isMovingRight() const { return moveRight; }
-    bool isMoveingUp() const { return moveUp; }
-    bool isMoveingDown() const { return moveDown; }
+    bool isMovingUp() const { return moveUp; }
+    bool isMovingDown() const { return moveDown; }
 
 private:
     bool moveLeft = false;

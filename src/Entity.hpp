@@ -9,11 +9,11 @@ protected:
     int id;
     sf::Texture texture;
     sf::Sprite sprite;
-    sf::Vector2f velocity;
+    sf::Vector2f movement;
 public:
 
     virtual ~Entity() = default;
-    Entity(std::string texturePath) :  sprite(texture), velocity({0.f, 0.f}) {
+    Entity(std::string texturePath) :  sprite(texture), movement({0.f, 0.f}) {
         id = count;
         count++;
 
@@ -21,7 +21,7 @@ public:
     }
 
     virtual void update(float deltaTime) {
-        sprite.move(velocity * deltaTime);
+        sprite.move(movement * deltaTime);
     }
     
     void draw(sf::RenderWindow& window) {
