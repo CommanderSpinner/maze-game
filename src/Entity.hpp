@@ -19,6 +19,10 @@ public:
 
         setTexture(texturePath);
     }
+
+    sf::Sprite& getSprite() {
+        return sprite;
+    }
     
     void draw(sf::RenderWindow& window) {
         window.draw(sprite);
