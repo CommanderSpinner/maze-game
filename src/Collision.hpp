@@ -11,10 +11,14 @@ class Collision {
         for (size_t i = 0; i < characters.size(); i++) {
             for (size_t j = 0; j < entity.size(); j++) {
 
-                sf::FloatRect a = characters[i]->getSprite().getGlobalBounds();
-                sf::FloatRect b = entity[j]->getSprite().getGlobalBounds();
+                sf::FloatRect characterRect = characters[i]->getSprite().getGlobalBounds();
+                sf::FloatRect entityRect = entity[j]->getSprite().getGlobalBounds();
                 
-                if (a.findIntersection(b)) {
+                // checking for self intersect
+                if (characters[i] == entity[j].get())
+                    continue;
+
+                if (characterRect.findIntersection(entityRect)) {
                 }
             }
         }
