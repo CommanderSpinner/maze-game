@@ -41,7 +41,7 @@ class WorldGenerator {
     }
 
     void generateEnemys() {
-        entity.push_back(std::make_unique<Character>(sf::Vector2f{100, 100}));
+        // entity.push_back(std::make_unique<Character>(sf::Vector2f{100, 100}));
     }
 
 public:
