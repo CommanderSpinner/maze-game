@@ -19,6 +19,7 @@ class Collision {
                     continue;
 
                 if (characterRect.findIntersection(entityRect)) {
+                    characters[i]->getSprite().setPosition(characters[i]->getPreviousPosition());
                 }
             }
         }

@@ -4,6 +4,8 @@
 #include "Global.hpp"
 
 class Character : public Entity {
+private:
+    sf::Vector2f previousPosition;
 protected:
     float speed = 185.f;
 public:
@@ -11,7 +13,12 @@ public:
         setPosition(pos);
     }
 
+    sf::Vector2f getPreviousPosition() {
+        return previousPosition;
+    }
+
     virtual void update(float deltaTime) {
+        previousPosition = sprite.getPosition();
         sprite.move(movement * deltaTime);
         movement = {0.f, 0.f};
     }
