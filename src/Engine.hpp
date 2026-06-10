@@ -13,10 +13,12 @@ private:
     sf::Clock clock;
     InputManager im;
     std::vector <std::unique_ptr<Entity>> entitys;
+    sf::View camera;
 
 public:
     Engine()
-        : window(sf::VideoMode({800, 600}), "maze game")
+        : window(sf::VideoMode({800, 600}), "maze game"),
+        camera({640.f, 360.f}, {1280.f, 720.f})
     {
         entitys.push_back(std::make_unique<Player>(im));
         WorldGenerator g(entitys);
@@ -53,6 +55,12 @@ private:
         }
 
         Collision collision(entitys);
+
+        // Center camera on player
+        camera.setCenter(entitys[0]->getPosition());
+
+        // Apply camera
+        window.setView(camera);
 
     }
 
