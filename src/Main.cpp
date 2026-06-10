@@ -1,7 +1,7 @@
 #include<iostream>
-#include "Window.hpp"
+#include "Engine.hpp"
 
 int main(void) {
-    Window w;
-    w.run();
+    Engine e;
+    e.run();
 }

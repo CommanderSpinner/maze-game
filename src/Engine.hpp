@@ -7,7 +7,7 @@
 #include "WorldGenerator.hpp"
 #include "Collision.hpp"
 
-class Window {
+class Engine {
 private:
     sf::RenderWindow window;
     sf::Clock clock;
@@ -15,7 +15,7 @@ private:
     std::vector <std::unique_ptr<Entity>> entitys;
 
 public:
-    Window()
+    Engine()
         : window(sf::VideoMode({800, 600}), "maze game")
     {
         entitys.push_back(std::make_unique<Player>(im));
