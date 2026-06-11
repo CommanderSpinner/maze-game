@@ -21,7 +21,7 @@ private:
 
 public:
     Engine()
-        : window(sf::VideoMode({800, 600}), "maze game"),
+        : window(sf::VideoMode({1920, 1080}), "maze game"),
         camera({640.f, 360.f}, {1280.f, 720.f})
     {   
         if (!ImGui::SFML::Init(window)) {
@@ -99,9 +99,9 @@ private:
 
     void renderGUI()
     {
-        // TODO: do some mathe to resize menu
-        ImGui::SetNextWindowPos(ImVec2(300, 200), ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize(ImVec2(200, 350), ImGuiCond_FirstUseEver);
+        ImVec2 windowPos(window.getSize().x / 2, window.getSize().y / 2);
+        ImGui::SetNextWindowPos(windowPos, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize(ImVec2(0, 0), ImGuiCond_Always);
 
         ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoMove 
                               | ImGuiWindowFlags_NoResize 
