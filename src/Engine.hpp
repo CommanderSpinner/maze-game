@@ -111,6 +111,13 @@ private:
             menuOpen = false; // Closes the GUI and resumes game
         }
 
+        int selected = 0; // 0 = 1920, 1080 A, 800, 600 =  B
+
+        if(ImGui::RadioButton("1920, 1080", &selected, 0))
+            window.setSize({1920, 1080});
+        if(ImGui::RadioButton("800, 600", &selected, 0))
+            window.setSize({800, 600});
+
         if (ImGui::Button("Exit", ImVec2(180, 40))) {
             window.close();
         }
