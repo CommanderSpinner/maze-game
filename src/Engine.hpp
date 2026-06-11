@@ -99,26 +99,33 @@ private:
 
     void renderGUI()
     {
-        // Center the window on screen nicely
+        // TODO: do some mathe to resize menu
         ImGui::SetNextWindowPos(ImVec2(300, 200), ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize(ImVec2(200, 200), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize(ImVec2(200, 350), ImGuiCond_FirstUseEver);
 
-        ImGui::Begin("Main Menu", &menuOpen);
+        ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoMove 
+                              | ImGuiWindowFlags_NoResize 
+                              | ImGuiWindowFlags_NoCollapse 
+                              | ImGuiWindowFlags_NoTitleBar;
+
+        ImGui::Begin("Main Menu", &menuOpen, windowFlags);
+
+        styleGUI();
         
         ImGui::Text("Welcome to the Maze Game!");
+
+        ImVec2 buttonSize(180, 40);
         
-        if (ImGui::Button("Start / Resume Game", ImVec2(180, 40))) {
+        if (ImGui::Button("Start / Resume Game", ImVec2(buttonSize))) {
             menuOpen = false; // Closes the GUI and resumes game
         }
 
-        int selected = 0; // 0 = 1920, 1080 A, 800, 600 =  B
-
-        if(ImGui::RadioButton("1920, 1080", &selected, 0))
+        if(ImGui::Button("Screen size: 1920, 1080", ImVec2(buttonSize)))
             window.setSize({1920, 1080});
-        if(ImGui::RadioButton("800, 600", &selected, 0))
+        if(ImGui::Button("Screen size: 800, 600", ImVec2(buttonSize)))
             window.setSize({800, 600});
 
-        if (ImGui::Button("Exit", ImVec2(180, 40))) {
+        if (ImGui::Button("Exit", ImVec2(buttonSize))) {
             window.close();
         }
 
@@ -136,5 +143,22 @@ private:
         ImGui::SFML::Render(window);
 
         window.display();
+    }
+
+    void styleGUI() 
+    {
+        ImGuiStyle& style = ImGui::GetStyle();
+
+        style.WindowPadding = ImVec2(12, 12);
+        style.FramePadding = ImVec2(8, 6);
+        style.ItemSpacing = ImVec2(8, 8);
+
+        style.WindowRounding = 8.0f;
+        style.FrameRounding = 6.0f;
+        style.GrabRounding = 6.0f;
+        style.TabRounding = 6.0f;
+
+        style.WindowBorderSize = 1.0f;
+        style.FrameBorderSize = 0.0f;
     }
 };
