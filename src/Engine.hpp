@@ -6,6 +6,7 @@
 #include <memory>
 #include "WorldGenerator.hpp"
 #include "Collision.hpp"
+#include "Menu.hpp"
 
 class Engine {
 private:
@@ -14,15 +15,19 @@ private:
     InputManager im;
     std::vector <std::unique_ptr<Entity>> entitys;
     sf::View camera;
+    Menu menu;
 
 public:
     Engine()
-        : window(sf::VideoMode({800, 600}), "maze game"),
-        camera({640.f, 360.f}, {1280.f, 720.f})
-    {
+        : window(sf::VideoMode({1920, 1080}), "maze game"),
+          camera({640.f, 360.f}, {1280.f, 720.f}),
+          menu(window)
+    {   
         entitys.push_back(std::make_unique<Player>(im));
         WorldGenerator g(entitys);
     }
+
+    ~Engine() {}
 
     void run()
     {
@@ -39,29 +44,49 @@ private:
     {
         while (const std::optional<sf::Event> event = window.pollEvent())
         {
+            ImGui::SFML::ProcessEvent(window, *event);
             if (event->is<sf::Event::Closed>())
                 window.close();
 
-            im.processEvent(*event);
+            // Toggle menu with Escape key
+            if (auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+                if (keyPressed->code == sf::Keyboard::Key::Escape) {
+                    menu.setMenuOpen(!menu.getMenuOpen());
+                }
+            }
+            // Only pass inputs to the game if the menu isn't open
+            if (!menu.getMenuOpen()) {
+                im.processEvent(*event);
+            }
         }
     }
 
     void update()
-    {
-        float deltaTime = clock.restart().asSeconds();
+    {   
+        sf::Time deltaTime = clock.restart();
 
-        for (auto& e : entitys) {
-            e->update(deltaTime);
+        // If deltaTime is 0 give it a tiny positive value to not crash
+        if (deltaTime.asSeconds() <= 0.0f) {
+            deltaTime = sf::seconds(1.f / 60.f); // Default to a 60 FPS frame time
         }
 
-        Collision collision(entitys);
+        ImGui::SFML::Update(window, deltaTime);
 
-        // Center camera on player
-        camera.setCenter(entitys[0]->getPosition());
+        if (menu.getMenuOpen()) {
+            menu.renderGUI();
+        } else {
 
-        // Apply camera
+            for (auto& e : entitys) {
+                float dtSeconds = deltaTime.asSeconds();
+                e->update(dtSeconds);
+            }
+
+            Collision collision(entitys);
+
+            // Center camera on player
+            camera.setCenter(entitys[0]->getPosition());
+        }
         window.setView(camera);
-
     }
 
     void render()
@@ -71,6 +96,8 @@ private:
         for (auto& e : entitys) {
             e->draw(window);
         }
+
+        ImGui::SFML::Render(window);
 
         window.display();
     }
