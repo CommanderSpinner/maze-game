@@ -6,6 +6,7 @@
 #include <random>
 #include "Character.hpp"
 #include <memory>
+#include "Enemy.hpp"
 
 class WorldGenerator {
     std::vector <std::unique_ptr<Entity>>& entity;
@@ -41,7 +42,7 @@ class WorldGenerator {
     }
 
     void generateEnemys() {
-        // entity.push_back(std::make_unique<Character>(sf::Vector2f{100, 100}));
+        entity.push_back(std::make_unique<Enemy>(sf::Vector2f{100, 100}));
     }
 
 public:
