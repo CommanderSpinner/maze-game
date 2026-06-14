@@ -4,19 +4,27 @@
 
 
 class Entity {
+    static inline int count = 0;
 protected:
+    int id;
+    sf::Texture texture;
     sf::Sprite sprite;
-    sf::Vector2f velocity;
+    sf::Vector2f movement;
 public:
 
     virtual ~Entity() = default;
-    Entity() : velocity({0.f, 0.f}) {}
+    Entity(std::string texturePath) :  sprite(texture), movement({0.f, 0.f}) {
+        id = count;
+        count++;
 
-    virtual void update(float deltaTime) {
-        sprite.move(velocity * deltaTime);
+        setTexture(texturePath);
+    }
+
+    sf::Sprite& getSprite() {
+        return sprite;
     }
     
-    virtual void draw(sf::RenderWindow& window) {
+    void draw(sf::RenderWindow& window) {
         window.draw(sprite);
     }
 
@@ -28,8 +36,14 @@ public:
         return sprite.getPosition();
     }
 
-    void setTexture(const sf::Texture& texture) {
-        sprite.setTexture(texture);
+    virtual void update(float deltaTime) {
+    }
+
+    void setTexture(std::string texturePath) {
+        if (!texture.loadFromFile(texturePath)) {
+            throw std::runtime_error("Failed to load texture from path: " + texturePath);
+        }
+        sprite.setTexture(texture, true);
     }
 
     sf::FloatRect getBounds() const {
