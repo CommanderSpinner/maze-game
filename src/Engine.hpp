@@ -7,6 +7,7 @@
 #include "WorldGenerator.hpp"
 #include "Collision.hpp"
 #include "Menu.hpp"
+#include "Database.hpp"
 
 class Engine {
 private:

@@ -3,11 +3,17 @@
 #include <SFML/Graphics.hpp>
 #include "Database.hpp"
 
+enum entityType {
+    BLOCK,
+    PLAYER,
+    ENEMY,
+    ITEM
+};
 
 class Entity {
     static inline int count = 0;
-    Database& db;
 protected:
+    entityType type;
     int id;
     sf::Texture texture;
     sf::Sprite sprite;
