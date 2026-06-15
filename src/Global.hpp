@@ -8,4 +8,5 @@ namespace Global
     inline std::string defaultTexturePath = "assets/Default.png";
     inline std::string blockTexturePath = "assets/Block.png";
     inline std::string enemyTexturePath = "assets/Enemy.png";
+    inline std::string dataBasePath = "assets/Data.db";
 }

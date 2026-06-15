@@ -1,10 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "Database.hpp"
 
 
 class Entity {
     static inline int count = 0;
+    Database& db;
 protected:
     int id;
     sf::Texture texture;
