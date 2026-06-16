@@ -23,12 +23,31 @@ private:
 
     bool tableIsCreated() {
 
+        const char *sql =
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?;";
 
-        return false;
+        if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
+            return false; // error
+        }
+
+        sqlite3_bind_text(stmt, 1, "data", -1, SQLITE_STATIC);
+
+        bool exists = (sqlite3_step(stmt) == SQLITE_ROW);
+
+        sqlite3_finalize(stmt);
+
+        return exists;
     }
 
     void createDB() {
+        char *errMsg = 0;
 
+        if (sqlite3_exec(db, DB_STRUCTURE.c_str(), 0, 0, &errMsg) != SQLITE_OK) {
+            fprintf(stderr, "SQL error: %s\n", errMsg);
+            sqlite3_free(errMsg);
+        } else {
+            printf("Table created successfully\n");
+        }
     }
 public:
     Database() {
@@ -42,6 +61,9 @@ public:
 
         if(!tableIsCreated()) {
             createDB();
+            std::printf("creating db");
+        } else {
+            std::printf("db already created");
         }
     }
 
