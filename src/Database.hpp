@@ -24,7 +24,7 @@ private:
     bool tableIsCreated() {
 
         const char *sql =
-            "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?;";
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?;"; // prepared statment for potentially other tables as well in the future
 
         if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
             return false; // error
