@@ -10,6 +10,7 @@
 class Database {
 private:
     sqlite3* db = nullptr;
+    sqlite3_stmt *stmt;
     const std::string DB_STRUCTURE = R"(
     CREATE TABLE data(
         id INTEGER PRIMARY KEY,
@@ -44,14 +45,30 @@ public:
         }
     }
 
-    void insert(record rec) {
+    void insert(record& rec) {
+        stmt = nullptr;
 
+        const char *sql = "INSERT INTO data(id, x, y, health, type) VALUES (?, ?, ?, ?, ?)";
+
+        sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+        if (sqlite3_step(stmt) != SQLITE_DONE) {
+            printf("Insert failed: %s\n", sqlite3_errmsg(db));
+        }
+
+        sqlite3_bind_int(stmt, 1, rec.id);
+        sqlite3_bind_double(stmt, 2, rec.x);
+        sqlite3_bind_double(stmt, 3, rec.y);
+        sqlite3_bind_int(stmt, 4, rec.health);
+        sqlite3_bind_text(stmt, 5, typeToString(rec.type).c_str());
+
+        sqlite3_finalize(stmt);
     }
 
     std::unique_ptr<record> read(size_t id) {
+        stmt = nullptr;
         std::unique_ptr<record> rec = std::make_unique<record>();
 
-        sqlite3_stmt *stmt = nullptr;
 
         const char *sql =
             "SELECT id, x, y, health, type FROM data WHERE id = ?;";
