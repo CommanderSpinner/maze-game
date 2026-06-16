@@ -10,6 +10,6 @@ public:
         setTexture(Global::blockTexturePath);
         sprite.setPosition(position);
         sprite.setScale(sf::Vector2f(1.f, 1.f));
-        type = BLOCK;
+        type = entityType::BLOCK;
     }
 };

@@ -2,13 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 #include "Database.hpp"
+#include "EntityType.hpp"
 
-enum entityType {
-    BLOCK,
-    PLAYER,
-    ENEMY,
-    ITEM
-};
 
 class Entity {
     static inline int count = 0;

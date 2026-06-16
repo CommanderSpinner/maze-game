@@ -11,7 +11,7 @@ private:
 public:
     Enemy(const sf::Vector2f& pos) : Character(pos) {
         setTexture(Global::enemyTexturePath);
-        type = ENEMY;
+        type = entityType::ENEMY;
     }
 
     void update(float deltaTime) {
