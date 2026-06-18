@@ -82,7 +82,7 @@ public:
         sqlite3_bind_double(stmt, 2, rec.x);
         sqlite3_bind_double(stmt, 3, rec.y);
         sqlite3_bind_int(stmt, 4, rec.health);
-        sqlite3_bind_text(stmt, 5, typeToString(rec.type).c_str());
+        sqlite3_bind_text(stmt, 5, typeToString(rec.type).c_str(), -1, SQLITE_STATIC);
 
         sqlite3_finalize(stmt);
     }
