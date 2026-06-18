@@ -2,11 +2,13 @@
 
 #include <imgui.h>
 #include <imgui-SFML.h>
+#include "Database.hpp"
 
 class Menu {
 private:
     bool menuOpen = true;
     sf::RenderWindow& window;
+    Database& database;
 
     void styleGUI() 
     {
@@ -34,7 +36,7 @@ private:
     }
 
 public:
-    Menu(sf::RenderWindow& w) : window(w) {
+    Menu(sf::RenderWindow& w, Database& db) : window(w), database(db) {
         if (!ImGui::SFML::Init(window)) {
             std::fprintf(stderr, "Error with GUI");
         }
@@ -78,6 +80,15 @@ public:
             window.setSize({1920, 1080});
         if(ImGui::Button("Screen size: 800, 600", ImVec2(buttonSize)))
             window.setSize({800, 600});
+
+        if (ImGui::Button("Save", ImVec2(buttonSize))) {
+            std::printf("Saving");
+
+        }
+
+        if (ImGui::Button("Load", ImVec2(buttonSize))) {
+            std::printf("Loading");
+        }
 
         if (ImGui::Button("Exit", ImVec2(buttonSize))) {
             window.close();
