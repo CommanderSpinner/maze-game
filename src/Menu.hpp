@@ -90,12 +90,12 @@ public:
             window.setSize({800, 600});
 
         if (ImGui::Button("Save", ImVec2(buttonSize))) {
-            std::printf("Saving");
+            std::printf("Saving\n");
             save();
         }
 
         if (ImGui::Button("Load", ImVec2(buttonSize))) {
-            std::printf("Loading");
+            std::printf("Loading\n");
             load();
         }
 

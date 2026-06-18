@@ -56,14 +56,14 @@ public:
         if (rc) {
             std::fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
         } else {
-            std::printf("DB opened successfully");
+            std::printf("DB opened successfully\n");
         }
 
         if(!tableIsCreated()) {
             createDB();
-            std::printf("creating db");
+            std::printf("creating db\n");
         } else {
-            std::printf("db already created");
+            std::printf("db already created\n");
         }
     }
 
