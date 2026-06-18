@@ -82,7 +82,7 @@ public:
         sqlite3_bind_double(stmt, 2, rec.x);
         sqlite3_bind_double(stmt, 3, rec.y);
         sqlite3_bind_int(stmt, 4, rec.health);
-        sqlite3_bind_text(stmt, 5, typeToString(rec.type).c_str(), -1, SQLITE_STATIC);
+        sqlite3_bind_text(stmt, 5, rec.type.c_str(), -1, SQLITE_STATIC);
 
         sqlite3_finalize(stmt);
     }
@@ -129,14 +129,7 @@ public:
                     reinterpret_cast<const char *>(typeText)
                 );
 
-                if (typeStr == "PLAYER")
-                    rec->type = entityType::PLAYER;
-                else if (typeStr == "ENEMY")
-                    rec->type = entityType::ENEMY;
-                else if (typeStr == "ITEM")
-                    rec->type = entityType::ITEM;
-                else
-                    rec->type = entityType::BLOCK;
+                rec->type = typeStr;
             }
         }
         else if (rc == SQLITE_DONE) {

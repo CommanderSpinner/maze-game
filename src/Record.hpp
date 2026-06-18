@@ -1,9 +1,7 @@
 #pragma once 
 
 #include "EntityType.hpp"
-#include "Player.hpp"
-#include "Enemy.hpp"
-#include "Block.hpp"
+#include "Entity.hpp"
 #include <cstdio>
 
 struct record {

@@ -1,9 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "Database.hpp"
 #include "EntityType.hpp"
 
+class Database;
 
 class Entity {
     static inline int count = 0;
