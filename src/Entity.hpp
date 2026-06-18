@@ -7,12 +7,14 @@
 
 class Entity {
     static inline int count = 0;
+    int health = 100;
 protected:
     entityType type;
-    int id;
+    size_t id;
     sf::Texture texture;
     sf::Sprite sprite;
     sf::Vector2f movement;
+
 public:
 
     virtual ~Entity() = default;
@@ -21,6 +23,22 @@ public:
         count++;
 
         setTexture(texturePath);
+    }
+
+    size_t getID() {
+        return id;
+    }
+
+    entityType getType() {
+        return type;
+    }
+
+    int getHealth() {
+        return health;
+    }
+
+    void setHealth(int health) {
+        this->health = health;
     }
 
     sf::Sprite& getSprite() {

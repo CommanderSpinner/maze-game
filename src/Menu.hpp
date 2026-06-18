@@ -35,6 +35,14 @@ private:
         style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.95f, 0.98f, 1.00f);       // Crisp off-white
     }
 
+    void save() {
+
+    }
+
+    void load() {
+
+    }
+
 public:
     Menu(sf::RenderWindow& w, Database& db) : window(w), database(db) {
         if (!ImGui::SFML::Init(window)) {
@@ -83,11 +91,12 @@ public:
 
         if (ImGui::Button("Save", ImVec2(buttonSize))) {
             std::printf("Saving");
-
+            save();
         }
 
         if (ImGui::Button("Load", ImVec2(buttonSize))) {
             std::printf("Loading");
+            load();
         }
 
         if (ImGui::Button("Exit", ImVec2(buttonSize))) {

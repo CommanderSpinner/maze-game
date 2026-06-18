@@ -9,7 +9,7 @@ enum class entityType {
     ITEM
 };
 
-inline std::string typeToString(entityType type) {
+inline std::string entityTypeToString(entityType type) {
     switch(type) {
         case entityType::BLOCK:
             return "BLOCK";
