@@ -8,6 +8,7 @@
 #include "Collision.hpp"
 #include "Menu.hpp"
 #include "Database.hpp"
+#include "Actions.hpp"
 
 class Engine {
 private:
@@ -18,6 +19,7 @@ private:
     sf::View camera;
     Menu menu;
     Database database;
+    MenuAction menuAction = MenuAction::None;
 
 public:
     Engine()
@@ -75,7 +77,7 @@ private:
         ImGui::SFML::Update(window, deltaTime);
 
         if (menu.getMenuOpen()) {
-            menu.renderGUI();
+            menuAction = menu.renderGUI();
         } else {
 
             for (auto& e : entitys) {
@@ -102,5 +104,40 @@ private:
         ImGui::SFML::Render(window);
 
         window.display();
+    }
+
+    void handleGUI() {
+        switch (menuAction) {
+            case MenuAction::Save:
+                save();
+                menuAction = MenuAction::None;
+                break;
+            case MenuAction::Load:
+                load();
+                menuAction = MenuAction::None;
+                break;
+            case MenuAction::Resize_1920_1080: 
+                window.setSize({1920, 1080});
+                menuAction = MenuAction::None;
+                break;
+            case MenuAction::Resize_800_600:
+                window.setSize({800, 600});
+                menuAction = MenuAction::None;
+                break;
+            case MenuAction::Exit:
+                window.close();
+                menuAction = MenuAction::None;
+                break;
+            case MenuAction::None:
+                break;
+        }
+    }
+
+    void save() {
+
+    }
+
+    void load() {
+
     }
 };

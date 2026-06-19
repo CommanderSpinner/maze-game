@@ -3,6 +3,7 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 #include "Database.hpp"
+#include "Actions.hpp"
 
 class Menu {
 private:
@@ -34,15 +35,6 @@ private:
         // Typography
         style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.95f, 0.98f, 1.00f);       // Crisp off-white
     }
-
-    void save() {
-
-    }
-
-    void load() {
-
-    }
-
 public:
     Menu(sf::RenderWindow& w, Database& db) : window(w), database(db) {
         if (!ImGui::SFML::Init(window)) {
@@ -61,7 +53,7 @@ public:
         return menuOpen;
     }
 
-    void renderGUI()
+    MenuAction renderGUI()
     {
         ImVec2 windowPos(window.getSize().x / 2, window.getSize().y / 2);
         ImGui::SetNextWindowPos(windowPos, ImGuiCond_FirstUseEver);
@@ -79,30 +71,26 @@ public:
         ImGui::Text("Welcome to the Maze Game!");
 
         ImVec2 buttonSize(180, 40);
+
+        MenuAction menuAction;
         
+        // maybe switch this later to MenuAction too ----------------
         if (ImGui::Button("Start / Resume Game", ImVec2(buttonSize))) {
             menuOpen = false; // Closes the GUI and resumes game
         }
 
         if(ImGui::Button("Screen size: 1920, 1080", ImVec2(buttonSize)))
-            window.setSize({1920, 1080});
+            menuAction = MenuAction::Resize_1920_1080;
         if(ImGui::Button("Screen size: 800, 600", ImVec2(buttonSize)))
-            window.setSize({800, 600});
-
-        if (ImGui::Button("Save", ImVec2(buttonSize))) {
-            std::printf("Saving\n");
-            save();
-        }
-
-        if (ImGui::Button("Load", ImVec2(buttonSize))) {
-            std::printf("Loading\n");
-            load();
-        }
-
-        if (ImGui::Button("Exit", ImVec2(buttonSize))) {
-            window.close();
-        }
+            menuAction = MenuAction::Resize_800_600;
+        if (ImGui::Button("Save", ImVec2(buttonSize))) 
+            menuAction = MenuAction::Save;
+        if (ImGui::Button("Load", ImVec2(buttonSize))) 
+            menuAction = MenuAction::Load;
+        if (ImGui::Button("Exit", ImVec2(buttonSize)))
+            menuAction = MenuAction::Exit;
 
         ImGui::End();
+        return menuAction;
     }
 };
