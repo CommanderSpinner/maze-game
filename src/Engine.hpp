@@ -9,6 +9,7 @@
 #include "Menu.hpp"
 #include "Database.hpp"
 #include "Actions.hpp"
+#include "utils.hpp"
 
 class Engine {
 private:
@@ -18,7 +19,6 @@ private:
     std::vector <std::unique_ptr<Entity>> entitys;
     sf::View camera;
     Menu menu;
-    Database database;
     MenuAction menuAction = MenuAction::None;
 
 public:
@@ -29,6 +29,7 @@ public:
     {   
         entitys.push_back(std::make_unique<Player>(im));
         WorldGenerator g(entitys);
+        DBG_PRINTF("ammount of Entitys: %i\n", Entity::getCount());
     }
 
     ~Engine() {}
@@ -78,6 +79,7 @@ private:
 
         if (menu.getMenuOpen()) {
             menuAction = menu.renderGUI();
+            handleGUI();
         } else {
 
             for (auto& e : entitys) {
@@ -134,7 +136,13 @@ private:
     }
 
     void save() {
+        Database db;
 
+        for (auto& e : entitys) {   
+            std::printf("saving record: %i\n", e->getID());
+            record r = entityToRecord(*e);
+            db.insert(r);
+        }
     }
 
     void load() {

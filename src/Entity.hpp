@@ -25,6 +25,10 @@ public:
         setTexture(texturePath);
     }
 
+    static size_t getCount() {
+        return count;
+    }
+
     size_t getID() {
         return id;
     }

@@ -11,7 +11,7 @@ struct record {
     std::string type;
 };
 
-inline record entityToRecord(Entity entity) {
+inline record entityToRecord(Entity& entity) {
     record r;
 
     r.id = entity.getID();

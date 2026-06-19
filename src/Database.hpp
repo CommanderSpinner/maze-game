@@ -70,6 +70,15 @@ public:
     void insert(record& rec) {
         stmt = nullptr;
 
+        // delete all records before saving new ones
+        char* err_msg = NULL;
+        sqlite3_exec(db, "DELETE FROM data;", NULL, NULL, &err_msg);
+
+        if (err_msg != NULL) {
+            printf("SQL error: %s\n", err_msg);
+            sqlite3_free(err_msg);
+        }
+
         const char *sql = "INSERT INTO data(id, x, y, health, type) VALUES (?, ?, ?, ?, ?)";
 
         sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
