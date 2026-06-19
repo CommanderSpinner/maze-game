@@ -25,7 +25,7 @@ public:
     Engine()
         : window(sf::VideoMode({1920, 1080}), "maze game"),
           camera({640.f, 360.f}, {1280.f, 720.f}),
-          menu(window, database)
+          menu(window)
     {   
         entitys.push_back(std::make_unique<Player>(im));
         WorldGenerator g(entitys);

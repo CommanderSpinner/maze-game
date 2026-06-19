@@ -2,14 +2,12 @@
 
 #include <imgui.h>
 #include <imgui-SFML.h>
-#include "Database.hpp"
 #include "Actions.hpp"
 
 class Menu {
 private:
     bool menuOpen = true;
     sf::RenderWindow& window;
-    Database& database;
 
     void styleGUI() 
     {
@@ -36,7 +34,7 @@ private:
         style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.95f, 0.98f, 1.00f);       // Crisp off-white
     }
 public:
-    Menu(sf::RenderWindow& w, Database& db) : window(w), database(db) {
+    Menu(sf::RenderWindow& w) : window(w) {
         if (!ImGui::SFML::Init(window)) {
             std::fprintf(stderr, "Error with GUI");
         }
