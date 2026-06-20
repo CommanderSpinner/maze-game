@@ -67,7 +67,7 @@ public:
         }
     }
 
-    void insert(record& rec) {
+    void insert(std::vector<record>& records) {
         stmt = nullptr;
 
         // delete all records before saving new ones
@@ -79,19 +79,32 @@ public:
             sqlite3_free(err_msg);
         }
 
-        const char *sql = "INSERT INTO data(id, x, y, health, type) VALUES (?, ?, ?, ?, ?)";
+         sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+
+
+        const char* sql = "INSERT INTO data(id, x, y, health, type) VALUES (?, ?, ?, ?, ?)";
+
+        sqlite3_stmt* stmt = nullptr;
 
         sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 
-        if (sqlite3_step(stmt) != SQLITE_DONE) {
-            printf("Insert failed: %s\n", sqlite3_errmsg(db));
-        }
+        for (auto& rec : records)
+        {
+            sqlite3_bind_int(stmt, 1, rec.id);
+            sqlite3_bind_double(stmt, 2, rec.x);
+            sqlite3_bind_double(stmt, 3, rec.y);
+            sqlite3_bind_int(stmt, 4, rec.health);
+            sqlite3_bind_text(stmt, 5, rec.type.c_str(), -1, SQLITE_TRANSIENT);
 
-        sqlite3_bind_int(stmt, 1, rec.id);
-        sqlite3_bind_double(stmt, 2, rec.x);
-        sqlite3_bind_double(stmt, 3, rec.y);
-        sqlite3_bind_int(stmt, 4, rec.health);
-        sqlite3_bind_text(stmt, 5, rec.type.c_str(), -1, SQLITE_STATIC);
+
+            if (sqlite3_step(stmt) != SQLITE_DONE) {
+                printf("Insert failed: %s\n", sqlite3_errmsg(db));
+            }
+
+
+            sqlite3_reset(stmt);
+            sqlite3_clear_bindings(stmt);
+        }
 
         sqlite3_finalize(stmt);
     }

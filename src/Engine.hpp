@@ -137,12 +137,15 @@ private:
 
     void save() {
         Database db;
+        std::vector<record> r;
+        r.reserve(entitys.size());
 
-        for (auto& e : entitys) {   
-            std::printf("saving record: %i\n", e->getID());
-            record r = entityToRecord(*e);
-            db.insert(r);
+        for (auto& e : entitys) {
+            r.push_back(entityToRecord(*e));
+            DBG_PRINTF("inserting: %i\n", e->getID());
         }
+
+        db.insert(r);
     }
 
     void load() {
