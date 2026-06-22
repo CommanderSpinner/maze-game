@@ -23,7 +23,7 @@ private:
 
 public:
     Engine()
-        : window(sf::VideoMode({1920, 1080}), "maze game"),
+        : window(sf::VideoMode({1920, 1080}), "maze game", sf::Style::Default),
           camera({640.f, 360.f}, {1280.f, 720.f}),
           menu(window)
     {   
@@ -52,6 +52,22 @@ private:
             ImGui::SFML::ProcessEvent(window, *event);
             if (event->is<sf::Event::Closed>())
                 window.close();
+
+            // Handle window resizing
+            if (auto* resized = event->getIf<sf::Event::Resized>())
+            {
+                float width = static_cast<float>(resized->size.x);
+                float height = static_cast<float>(resized->size.y);
+
+                sf::Vector2f center = camera.getCenter();
+
+                camera.setSize({
+                    1280.f,
+                    1280.f * height / width
+                });
+
+                camera.setCenter(center);
+            }
 
             // Toggle menu with Escape key
             if (auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
@@ -92,12 +108,13 @@ private:
             // Center camera on player
             camera.setCenter(entitys[0]->getPosition());
         }
-        window.setView(camera);
     }
 
     void render()
     {
         window.clear(sf::Color::Black);
+
+        window.setView(camera);
 
         for (auto& e : entitys) {
             e->draw(window);

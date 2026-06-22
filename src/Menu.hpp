@@ -53,9 +53,17 @@ public:
 
     MenuAction renderGUI()
     {
-        ImVec2 windowPos(window.getSize().x / 2, window.getSize().y / 2);
-        ImGui::SetNextWindowPos(windowPos, ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize(ImVec2(0, 0), ImGuiCond_Always);
+        ImGui::SetNextWindowPos(
+            ImVec2(window.getSize().x / 2.f,
+                window.getSize().y / 2.f),
+            ImGuiCond_Always,
+            ImVec2(0.5f,0.5f)
+        );
+
+        ImGui::SetNextWindowSize(
+            ImVec2(300,400),
+            ImGuiCond_FirstUseEver
+        );
 
         ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoMove 
                               | ImGuiWindowFlags_NoResize 
@@ -70,17 +78,19 @@ public:
 
         ImVec2 buttonSize(180, 40);
 
-        MenuAction menuAction;
+        MenuAction menuAction = MenuAction::None;
         
         // maybe switch this later to MenuAction too ----------------
         if (ImGui::Button("Start / Resume Game", ImVec2(buttonSize))) {
             menuOpen = false; // Closes the GUI and resumes game
         }
 
+        /* maybe remove this interly
         if(ImGui::Button("Screen size: 1920, 1080", ImVec2(buttonSize)))
             menuAction = MenuAction::Resize_1920_1080;
         if(ImGui::Button("Screen size: 800, 600", ImVec2(buttonSize)))
             menuAction = MenuAction::Resize_800_600;
+        */
         if (ImGui::Button("Save", ImVec2(buttonSize))) 
             menuAction = MenuAction::Save;
         if (ImGui::Button("Load", ImVec2(buttonSize))) 
