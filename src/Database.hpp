@@ -105,19 +105,34 @@ public:
             sqlite3_reset(stmt);
             sqlite3_clear_bindings(stmt);
         }
+        
+        sqlite3_exec(db, "COMMIT;", NULL, NULL, NULL);
 
         sqlite3_finalize(stmt);
     }
 
-    std::unique_ptr<record> read(size_t id) {
+    std::vector<record> read() {
         stmt = nullptr;
-        std::unique_ptr<record> rec = std::make_unique<record>();
+        std::vector<record> rec;
 
 
         const char *sql =
-            "SELECT id, x, y, health, type FROM data WHERE id = ?;";
+            "SELECT id, x, y, health, type FROM data;"; // not using * because select is to fragile
 
         int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr);
+
+        int count = 0;
+        sqlite3_stmt* countStmt = nullptr;
+
+        sqlite3_prepare_v2(db, "SELECT COUNT(*) FROM data;", -1, &countStmt, nullptr);
+
+        if (sqlite3_step(countStmt) == SQLITE_ROW) {
+            count = sqlite3_column_int(countStmt, 0);
+        }
+
+        sqlite3_finalize(countStmt);
+
+        std::printf("Database rows: %d\n", count);
 
         if (rc != SQLITE_OK) {
             std::fprintf(stderr,
@@ -126,23 +141,14 @@ public:
             return rec;
         }
 
-        rc = sqlite3_bind_int64(stmt, 1, static_cast<sqlite3_int64>(id));
-
-        if (rc != SQLITE_OK) {
-            std::fprintf(stderr,
-                        "Bind failed: %s\n",
-                        sqlite3_errmsg(db));
-            sqlite3_finalize(stmt);
-            return rec;
-        }
-
         rc = sqlite3_step(stmt);
 
-        if (rc == SQLITE_ROW) {
-            rec->id = static_cast<size_t>(sqlite3_column_int64(stmt, 0));
-            rec->x = static_cast<float>(sqlite3_column_double(stmt, 1));
-            rec->y = static_cast<float>(sqlite3_column_double(stmt, 2));
-            rec->health = sqlite3_column_int(stmt, 3);
+        while (rc == SQLITE_ROW) {
+            record tmp;
+            tmp.id = static_cast<size_t>(sqlite3_column_int64(stmt, 0));
+            tmp.x = static_cast<float>(sqlite3_column_double(stmt, 1));
+            tmp.y = static_cast<float>(sqlite3_column_double(stmt, 2));
+            tmp.health = sqlite3_column_int(stmt, 3);
 
             const unsigned char *typeText = sqlite3_column_text(stmt, 4);
 
@@ -151,14 +157,16 @@ public:
                     reinterpret_cast<const char *>(typeText)
                 );
 
-                rec->type = typeStr;
+                tmp.type = typeStr;
             }
+
+            rec.push_back(tmp);
+
+            rc = sqlite3_step(stmt);
         }
-        else if (rc == SQLITE_DONE) {
-            std::fprintf(stderr, "No record found with id %zu\n", id);
-        }
-        else {
-            std::fprintf(stderr, "Step failed: %s\n",sqlite3_errmsg(db));
+
+        if (rc != SQLITE_DONE) {
+            std::fprintf(stderr, "Read failed: %s\n", sqlite3_errmsg(db));
         }
 
         sqlite3_finalize(stmt);

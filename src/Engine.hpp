@@ -159,13 +159,24 @@ private:
 
         for (auto& e : entitys) {
             r.push_back(entityToRecord(*e));
-            DBG_PRINTF("inserting: %i\n", e->getID());
+            DBG_PRINTF("inserting: %zu\n", e->getID());
         }
 
         db.insert(r);
     }
 
     void load() {
+        Database db;
 
+        std::vector<record> r = db.read();
+
+        DBG_PRINTF("records found: %zu", r.size());
+
+        entitys.clear();
+
+        for (int i = 0; i < r.size(); i++) {
+            entitys.push_back(recordToEntity(r[i], im));
+            DBG_PRINTF("reading: %zu \n", i);
+        }
     }
 };
