@@ -33,6 +33,10 @@ public:
         return id;
     }
 
+    void setID(size_t id) {
+        this->id = id;
+    }
+
     entityType getType() {
         return type;
     }
