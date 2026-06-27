@@ -34,6 +34,7 @@ inline std::unique_ptr<Entity> recordToEntity(record r, InputManager& im) {
             break;
         case entityType::PLAYER:
             e = std::make_unique<Player>(im);
+            break;
         case entityType::ENEMY:
             e = std::make_unique<Enemy>(sf::Vector2f{0.f, 0.f});
             break;

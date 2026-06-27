@@ -117,7 +117,7 @@ public:
 
 
         const char *sql =
-            "SELECT id, x, y, health, type FROM data;"; // not using * because select is to fragile
+            "SELECT id, x, y, health, type FROM data ORDER BY id;"; // not using * because select is to fragile
 
         int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr);
 
