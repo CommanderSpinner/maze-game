@@ -4,11 +4,12 @@ pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     cmake
     pkg-config
+    gnumake
   ];
 
   buildInputs = with pkgs; [
-    gcc
-    gnumake
+    glib
+    harfbuzz
     freetype
     xorg.libX11
     xorg.libXrandr
@@ -26,5 +27,11 @@ pkgs.mkShell {
     freetype
     libpng
     zlib
+    stdenv.cc
   ];
+
+  shellHook = ''
+    export CC=cc
+    export CXX=c++
+  '';
 }

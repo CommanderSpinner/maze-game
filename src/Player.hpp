@@ -33,6 +33,7 @@ public:
     Player(InputManager& im) :  Character({50.f, 50.f}), input(im) {
         setTexture(Global::playerTexturePath);
         sprite.setScale({0.8f, 0.8f}); // set scale down for player to fit between tiles
+        type = entityType::PLAYER;
     }
     
     void update(float deltaTime) override {

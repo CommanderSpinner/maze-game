@@ -1,15 +1,20 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "EntityType.hpp"
 
+class Database;
 
 class Entity {
     static inline int count = 0;
+    int health = 100;
 protected:
-    int id;
+    entityType type;
+    size_t id;
     sf::Texture texture;
     sf::Sprite sprite;
     sf::Vector2f movement;
+
 public:
 
     virtual ~Entity() = default;
@@ -18,6 +23,30 @@ public:
         count++;
 
         setTexture(texturePath);
+    }
+
+    static size_t getCount() {
+        return count;
+    }
+
+    size_t getID() {
+        return id;
+    }
+
+    void setID(size_t id) {
+        this->id = id;
+    }
+
+    entityType getType() {
+        return type;
+    }
+
+    int getHealth() {
+        return health;
+    }
+
+    void setHealth(int health) {
+        this->health = health;
     }
 
     sf::Sprite& getSprite() {
