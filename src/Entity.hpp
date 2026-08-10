@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "EntityType.hpp"
+#include "Animation.hpp"
 
 class Database;
 
@@ -14,6 +15,23 @@ protected:
     sf::Texture texture;
     sf::Sprite sprite;
     sf::Vector2f movement;
+
+    Animation* currentAnimation = nullptr;
+
+    void setAnimation(Animation& animation) {
+        if (currentAnimation == &animation)
+            return;
+
+        currentAnimation = &animation;
+        currentAnimation->reset();
+    }
+
+    void updateAnimation(float deltaTime) {
+        if (currentAnimation) {
+            currentAnimation->update(deltaTime);
+            currentAnimation->applyToSprite(sprite);
+        }
+    }
 
 public:
 
@@ -66,6 +84,7 @@ public:
     }
 
     virtual void update(float deltaTime) {
+        updateAnimation(deltaTime);
     }
 
     void setTexture(std::string texturePath) {
