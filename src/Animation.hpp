@@ -40,7 +40,10 @@ public:
             int x = (startCol + i) * frameWidth;
             int y = row * frameHeight;
 
-            frames.emplace_back(x, y, frameWidth, frameHeight);
+            frames.emplace_back(
+                sf::Vector2i{x, y},
+                sf::Vector2i{frameWidth, frameHeight}
+            );
         }
     }
 
